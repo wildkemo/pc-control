@@ -10,7 +10,7 @@ import (
 )
 
 func handleShutdown(w http.ResponseWriter, r *http.Request) {
-	cmd := exec.Command("shutdown", "/s", "/t", "0")
+	cmd := exec.Command("shutdown", "/s", "/f", "/t", "0")
 	err := cmd.Start()
 	if err != nil {
 		http.Error(w, err.Error(), 500)
