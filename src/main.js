@@ -4,7 +4,7 @@ const shutdownBtn = document.getElementById('shutdownBtn');
 const closeBtn = document.getElementById('closeBtn');
 const statusMessage = document.getElementById('status-message');
 
-const ip = "http://192.168.122.13:3000";
+const ip = "http://192.168.1.67:3000";
 
 function updateStatus(message, isError = false) {
   statusMessage.textContent = message;
