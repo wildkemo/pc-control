@@ -47,7 +47,7 @@ func main() {
 	dir := filepath.Dir(execPath)
 
 	// serve static files from dist subdirectory
-	distDir := filepath.Join(dir, "dist")
+	distDir := filepath.Join(dir,"..", "dist")
 	fs := http.FileServer(http.Dir(distDir))
 	http.Handle("/", fs)
 
