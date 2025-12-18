@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 )
 
 func handleShutdown(w http.ResponseWriter, r *http.Request) {
@@ -18,15 +19,24 @@ func handleShutdown(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Shutting down...")
 }
 
-func handleCloseAll(w http.ResponseWriter, r *http.Request) {
-	cmd := exec.Command("taskkill", "/F", "/IM", "notepad.exe") // change as needed
-	err := cmd.Run()
+func handleLogout(w http.ResponseWriter, r *http.Request) {
+	// Safety check: Windows only
+	if runtime.GOOS != "windows" {
+		http.Error(w, "Logout only supported on Windows", 500)
+		return
+	}
+
+	// shutdown /l = log out current user
+	cmd := exec.Command("shutdown", "/l")
+	err := cmd.Start()
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	fmt.Fprint(w, "Closed all notepad windows")
+
+	fmt.Fprint(w, "Logging out...")
 }
+
 
 func main() {
 	// get directory of the executable
@@ -43,7 +53,7 @@ func main() {
 
 	// endpoints for commands
 	http.HandleFunc("/shutdown", handleShutdown)
-	http.HandleFunc("/close-all", handleCloseAll)
+	http.HandleFunc("/logout", handleLogout)
 
 	fmt.Println("Server running on :3000")
 	http.ListenAndServe(":3000", nil)

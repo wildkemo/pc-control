@@ -36,7 +36,7 @@ if (shutdownBtn) {
 if (closeBtn) {
   closeBtn.addEventListener('click', () => {
     updateStatus('Sending close command...');
-    fetch(`${ip}/close-all`)
+    fetch(`${ip}/logout`)
       .then(response => {
         if (response.ok) {
           updateStatus('Close command sent successfully!');
